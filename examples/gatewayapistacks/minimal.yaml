@@ -1,0 +1,7 @@
+apiVersion: hops.ops.com.ai/v1alpha1
+kind: GatewayAPIStack
+metadata:
+  name: gateway-api
+  namespace: default
+spec:
+  clusterName: my-cluster

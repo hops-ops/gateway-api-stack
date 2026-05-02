@@ -1,0 +1,39 @@
+# code: language=yaml
+#
+# Helm Release: gateway-api-crds
+#
+# Installs the Kubernetes Gateway API CRDs (gateway.networking.k8s.io) on the
+# target cluster.
+# Chart: wiremind/gateway-api-crds (community-maintained wrapper around upstream
+# kubernetes-sigs/gateway-api YAML).
+# Repository: https://wiremind.github.io/wiremind-helm-charts
+# Upstream: https://github.com/kubernetes-sigs/gateway-api
+#
+
+---
+apiVersion: helm.m.crossplane.io/v1beta1
+kind: Release
+metadata:
+  name: {{ $state.releaseName }}
+  annotations:
+    {{ setResourceNameAnnotation "gateway-api-crds" }}
+  labels: {{ $state.labels | toJson }}
+spec:
+  managementPolicies: {{ $state.managementPolicies | toJson }}
+  forProvider:
+    chart:
+      name: gateway-api-crds
+      repository: https://wiremind.github.io/wiremind-helm-charts
+      version: {{ $state.chartVersion | quote }}
+    namespace: {{ $state.namespace }}
+    {{- if gt (len $state.overrideAllValues) 0 }}
+    values:
+      {{- toYaml $state.overrideAllValues | nindent 6 }}
+    {{- else if gt (len $state.values) 0 }}
+    values:
+      {{- toYaml $state.values | nindent 6 }}
+    {{- end }}
+  rollbackLimit: 3
+  providerConfigRef:
+    name: {{ $state.helmProviderConfigRef.name }}
+    kind: {{ $state.helmProviderConfigRef.kind }}

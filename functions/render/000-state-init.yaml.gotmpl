@@ -1,0 +1,53 @@
+# code: language=yaml
+#
+# Initialize $state with spec defaults
+#
+
+{{- $xr := getCompositeResource . }}
+{{- $spec := $xr.spec | default dict }}
+{{- $metadata := $xr.metadata | default dict }}
+
+# ==============================================================================
+# Core defaults
+# ==============================================================================
+{{- $name := $metadata.name | default "gateway-api" }}
+{{- $clusterName := $spec.clusterName | default $name }}
+{{- $namespace := $spec.namespace | default "gateway-api" }}
+{{- $releaseName := $spec.releaseName | default "gateway-api-crds" }}
+{{- $chartVersion := $spec.chartVersion | default "1.5.1" }}
+{{- $managementPolicies := $spec.managementPolicies | default (list "*") }}
+
+# Labels
+{{- $kindKey := printf "hops.ops.com.ai/%s" (lower $xr.kind) }}
+{{- $defaultLabels := dict
+  "hops.ops.com.ai/managed" "true"
+  $kindKey $name
+}}
+{{- $labels := mergeOverwrite (dict) $defaultLabels ($spec.labels | default dict) }}
+
+# ==============================================================================
+# Provider config refs
+# ==============================================================================
+{{- $helmProviderConfigRef := $spec.helmProviderConfigRef | default dict }}
+{{- $helmProviderConfigRef = dict
+  "name" ($helmProviderConfigRef.name | default $clusterName)
+  "kind" ($helmProviderConfigRef.kind | default "ProviderConfig")
+}}
+
+# ==============================================================================
+# Initialize $state
+# ==============================================================================
+{{- $state := dict
+  "name" $name
+  "clusterName" $clusterName
+  "namespace" $namespace
+  "releaseName" $releaseName
+  "chartVersion" $chartVersion
+  "managementPolicies" $managementPolicies
+  "labels" $labels
+  "helmProviderConfigRef" $helmProviderConfigRef
+  "values" ($spec.values | default dict)
+  "overrideAllValues" ($spec.overrideAllValues | default dict)
+  "observed" (dict)
+  "status" (dict)
+}}

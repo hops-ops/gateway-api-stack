@@ -1,0 +1,12 @@
+apiVersion: hops.ops.com.ai/v1alpha1
+kind: GatewayAPIStack
+metadata:
+  name: gateway-api
+  namespace: default
+spec:
+  clusterName: prod-cluster
+  labels:
+    team: platform
+  namespace: gateway-api
+  releaseName: gateway-api-crds
+  chartVersion: "1.5.1"

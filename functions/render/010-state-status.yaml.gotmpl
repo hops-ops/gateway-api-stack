@@ -1,0 +1,24 @@
+# code: language=yaml
+#
+# Extract observed state from composed resources
+#
+
+{{- $observed := $.observed.resources | default dict }}
+
+{{- $crdsEntry := get $observed "gateway-api-crds" | default dict }}
+{{- $crdsResource := $crdsEntry.resource | default dict }}
+{{- $crdsStatus := $crdsResource.status | default dict }}
+{{- $crdsReady := false }}
+{{- range ($crdsStatus.conditions | default list) }}
+  {{- if and (eq .type "Ready") (eq .status "True") }}
+    {{- $crdsReady = true }}
+  {{- end }}
+{{- end }}
+
+{{- $state = set $state "observed" (dict
+  "gatewayApiCRDs" (dict "ready" $crdsReady)
+) }}
+
+{{- $state = set $state "status" (dict
+  "ready" false
+) }}

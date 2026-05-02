@@ -1,0 +1,14 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  name: gateway-api-stack
+  annotations:
+    meta.crossplane.io/maintainer: Patrick Lee Scott
+    meta.crossplane.io/source: github.com/hops-ops/gateway-api-stack
+    meta.crossplane.io/description: Installs Kubernetes Gateway API CRDs onto a target cluster as a Helm release. Cloud-neutral, prereq for Gateway API based controllers and integrations.
+spec:
+  dependsOn:
+  - function: xpkg.crossplane.io/crossplane-contrib/function-auto-ready
+    version: '>=v0.6.3'
+  - provider: xpkg.crossplane.io/crossplane-contrib/provider-helm
+    version: '>=v1'
