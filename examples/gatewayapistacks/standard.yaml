@@ -10,4 +10,4 @@ spec:
   namespace: gateway-api
   releaseName: gateway-api-crds
   # renovate: datasource=helm depName=gateway-api-crds registryUrl=https://wiremind.github.io/wiremind-helm-charts
-  chartVersion: "1.5.1"
+  chartVersion: "1.6.0"

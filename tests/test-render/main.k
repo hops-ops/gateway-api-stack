@@ -35,7 +35,7 @@ _items = [
                             name = "gateway-api-crds"
                             repository = "https://wiremind.github.io/wiremind-helm-charts"
                             # renovate: datasource=helm depName=gateway-api-crds registryUrl=https://wiremind.github.io/wiremind-helm-charts
-                            version = "1.5.1"
+                            version = "1.6.0"
                         }
                         namespace = "gateway-api"
                     }

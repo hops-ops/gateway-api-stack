@@ -15,7 +15,7 @@
 {{- $namespace := $spec.namespace | default "gateway-api" }}
 {{- $releaseName := $spec.releaseName | default "gateway-api-crds" }}
 # renovate: datasource=helm depName=gateway-api-crds registryUrl=https://wiremind.github.io/wiremind-helm-charts
-{{- $chartVersion := $spec.chartVersion | default "1.5.1" }}
+{{- $chartVersion := $spec.chartVersion | default "1.6.0" }}
 {{- $managementPolicies := $spec.managementPolicies | default (list "*") }}
 
 # Labels
